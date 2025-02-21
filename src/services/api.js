@@ -43,3 +43,72 @@ export const login = async (username, password) => {
     return err.response?.data || { message: "Failed to login" };
   }
 };
+
+export const getPosts = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.get("/posts", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response ? err.response.data : { message: "Network error" };
+  }
+};
+
+export const deletePost = async (postId) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.delete(`/posts/${postId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response ? err.response.data : { message: "Network error" };
+  }
+};
+
+export const getPost = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.get(`/posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.log(err);
+    throw err.response ? err.response.data : { message: "Network error" };
+  }
+};
+export const createPost = async (data) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.post("/posts", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response ? err.response.data : { message: "Network error" };
+  }
+};
+export const updatePost = async (id, data) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.put(`/posts/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    throw err.response ? err.response.data : { message: "Network error" };
+  }
+};
