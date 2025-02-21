@@ -4,20 +4,31 @@ import { useAuth } from "../contexts/AuthContext";
 
 const Navigation = () => {
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuth();
+  const { setIsAuthenticated, isAuthenticated, user, setUser } = useAuth();
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setIsAuthenticated(false);
+    setUser(null);
     navigate("/login");
   };
 
   return (
     <nav>
-      <Link to="/dashboard">Dashboard</Link>
-      <Link to="/create">Create Post</Link>
-      <Link to="/signup">Signup</Link>
-      <Link to="/login">Login</Link>
-      <button onClick={() => logout()}>Log Out</button>
+      <div className="nav-links">
+        {isAuthenticated ? (
+          <>
+            <span>Welcome, {user?.username}</span>
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/create">Create Post</Link>
+            <button onClick={() => logout()}>Logout</button>
+          </>
+        ) : (
+          <>
+            <Link to="/login">Login</Link>
+          </>
+        )}
+      </div>
     </nav>
   );
 };

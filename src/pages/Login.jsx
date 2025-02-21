@@ -5,7 +5,7 @@ import { login } from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => {
-  const { setIsAuthenticated } = useAuth();
+  const { setIsAuthenticated, setUser } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState([]);
@@ -22,7 +22,9 @@ const Login = () => {
         return;
       }
       console.log("Login successful", data);
+      localStorage.setItem("user", JSON.stringify(data.user.username));
       setIsAuthenticated(true);
+      setUser(data.user);
       navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || err.message || "Failed to login");
